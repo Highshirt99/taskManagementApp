@@ -3,13 +3,19 @@ import { useState, useEffect, useContext } from "react";
 import Sidebar from "@/components/Sidebar ";
 import Template from "@/components/Template ";
 import Header from "@/components/Header ";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { KanbanContext } from "@/utils/Providers ";
-import NewTask from "@/components/Modals/NewTask ";
+import { setId } from "@/utils/redux/slice ";
 
 export default function Home() {
-  const { theme, setTheme, newTaskModalOpen } = useContext(KanbanContext);
+  const dispatch = useDispatch()
+  const { theme } = useContext(KanbanContext);
   const boards = useSelector((state) => state.kanban.boards.boards);
+
+  useEffect(() => {
+    dispatch(setId())
+  },[])
+ 
   useEffect(() => {
     // Ensure that the body class matches the current theme mode
     if (theme === "dark") {
@@ -23,7 +29,7 @@ export default function Home() {
     <div className="relative">
       <Header />
 
-      <main className="flex min-h-screen  dark:bg-gray-dark">
+      <main className="flex min-h-screen dark:bg-gray-dark">
         <Sidebar />
         <Template boards={boards} />
       </main>

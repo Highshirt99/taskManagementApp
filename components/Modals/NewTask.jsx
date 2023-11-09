@@ -43,19 +43,16 @@ const NewTask = () => {
   };
 
   const onSubmit = (data) => {
-    dispatch(
-      addNewTask(data)
-    )
+    dispatch(addNewTask(data));
 
     setNewTaskModalOpen(false);
     toast.success("Task created successfully", {
       position: "top-right",
       autoClose: 3000,
-      hideProgressBar: false, 
+      hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
-     
-    })
+    });
   };
 
   return (
@@ -64,13 +61,13 @@ const NewTask = () => {
      items-center fixed inset-0 z-[50]
       bg-black bg-opacity-10 scrollbar-hide"
     >
-      <div className="bg-white lg:w-[400px] md:w-[350px] h-fit w-[80%] p-4 rounded-md  bottom-[80px] absolute top-8">
-        <div className="flex justify-between items-center">
+      <div className="bg-white lg:w-[400px] md:w-[350px] h-fit w-[80%] p-4 rounded-md  bottom-[80px] relative top-8">
+        <div>
           <h1 className="font-[600] text-[14px]">Add New Task</h1>
           <Image
             src={close}
             alt="close"
-            className=" cursor-pointer w-[10px]"
+            className=" cursor-pointer w-[10px]  absolute top-3 right-5"
             onClick={() => setNewTaskModalOpen(false)}
           />
         </div>
@@ -113,10 +110,10 @@ const NewTask = () => {
 
             {fields.map((field, index) => (
               <div key={field.id}>
-                <div className="flex gap-3 items-center">
+                <div className="flex items-center gap-3">
                   <input
                     id={`subtasks.${index}.value`}
-                    autoCapitalize="off"
+                    autoCapitalize="on"
                     placeholder={
                       index === 0
                         ? "e.g. Make coffee"
@@ -128,7 +125,9 @@ const NewTask = () => {
                       required: index === 0,
                     })}
                     className={`${
-                      errors.subtasks && index === 0 ? " border-red" : "border-gray-300 "
+                      errors.subtasks && index === 0
+                        ? " border-red"
+                        : "border-gray-300 "
                     } border text-[12px]  rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
                   />
 
@@ -161,7 +160,7 @@ const NewTask = () => {
               {...register("status", { required: true })}
               className={`${
                 errors.status ? " border-red" : "border-gray-300  "
-              } border text-[12px]  rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
+              } border text-[12px] cursor-pointer  rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
             >
               {selectedBoard.columns.map((column, index) => (
                 <option key={index} value={column.name}>

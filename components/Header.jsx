@@ -6,13 +6,16 @@ import add from "@/assets/icon-add-task-mobile.svg ";
 import Logo from "./Logo";
 import { KanbanContext } from "@/utils/Providers ";
 import NewTask from "./Modals/NewTask";
+import Settings from "./Settings";
+import EditBoard from './Modals/EditBoard'
+
 
 const Header = () => {
-  const {setNewTaskModalOpen,newTaskModalOpen} = useContext(KanbanContext)
+  
+  const {setNewTaskModalOpen, newTaskModalOpen, showEditBoardModal,  showSettings, setShowSettings} = useContext(KanbanContext)
   return (
-    <header className="flex items-center justify-between w-full pl-2 border-b lg:pr-12 dark:border-b-gray-700 dark:bg-gray-dark">
+    <header className="relative flex items-center justify-between w-full pl-2 pr-4 border-b lg:pr-12 dark:border-b-gray-700 dark:bg-gray-dark">
       <Logo />
-
       <h1 className="lg:text-[14px] font-bold right-4 relative lg:right-[20rem] dark:text-white">
         Platform Launch
       </h1>
@@ -21,11 +24,16 @@ const Header = () => {
           <Image alt="add" src={add} className="w-[10px]"  />
           <span className="hidden lg:block" >Add New Task</span>
         </button>
-        <Image className="cursor-pointer" src={settings} alt="settings" />
+        <Image className="cursor-pointer" src={settings} alt="settings" onClick={() => setShowSettings(!showSettings)} />
       </div>
       {
         newTaskModalOpen && <NewTask/>
       }
+        {
+        showEditBoardModal && <EditBoard/>
+      }
+      <Settings/>
+  
     </header>
   );
 };

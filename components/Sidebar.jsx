@@ -12,24 +12,28 @@ import { selectBoard } from "@/utils/redux/slice ";
 const Sidebar = () => {
   let boards = useSelector((state) => state.kanban.boards.boards);
   let selected = useSelector((state) => state.kanban.selectedBoard);
-  // console.log(selected);
+  const dispatch = useDispatch();
 
-  const { theme, setTheme, selectedBoard, setSelectedBoard, hideSidebar, setHideSidebar } =
-    useContext(KanbanContext);
+  const {
+    theme,
+    setTheme,
+    selectedBoard,
+    setSelectedBoard,
+    hideSidebar,
+    setHideSidebar,
+  } = useContext(KanbanContext);
 
   useEffect(() => {
     setSelectedBoard(selected);
-    // console.log(selected);
   }, [selected]);
-
-  const dispatch = useDispatch();
+ 
 
   return (
     <div
       className={`${
         hideSidebar ? "w-0" : "lg:w-[15%] w-[50%] md:w-[30%]"
       } ease-in-out duration-500
-    relative min-h-screen `}
+    relative min-h-screen`}
     >
       <div className=" py-6 ml-6 text-purple-dark text-[10px] font-bold dark:text-gray-light">
         <h4>ALL BOARDS ({boards.length})</h4>
@@ -38,31 +42,23 @@ const Sidebar = () => {
       <div className="flex flex-col gap-2 font-bold lg:mr-3 dark:text-gray-light">
         {boards.map((board, index) => (
           <div
-          onClick={() => dispatch(selectBoard(board))}
+            onClick={() => dispatch(selectBoard(board))}
             className={`${
               selectedBoard.name === board.name
-                ? "bg-purple-dark p-2 rounded-r-full text-white"
+                ? "bg-purple-dark rounded-r-full text-white"
                 : "text-purple-dark dark:text-gray-light"
             } flex text-[10px] lg:text-[12px] items-center gap-2 p-2 rounded-r-full cursor-pointer hover:bg-purple-light hover:text-white dark:hover:text-white`}
             key={index}
           >
             <Image src={boardIcon} alt="board" className="w-[10px]" />
-            <h4
-           
-              className="cursor-pointer"
-            >
-              {board.name}
-            </h4>
+            <h4 className="cursor-pointer">{board.name}</h4>
           </div>
         ))}
       </div>
 
-      <div className="flex text-[10px] lg:text-[12px] mt-2 text-purple-dark  dark:text-gray-light font-bold items-center gap-2 p-1 lg:mr-3 rounded-r-full cursor-pointer hover:bg-purple-light hover:text-white">
-        <Image src={boardIcon} alt="board" className="w-[10px]" />
-        <h4
-          // onClick={() => dispatch(selectBoard(board))}
-          className="flex items-center gap-1 cursor-pointer"
-        >
+      <div className="flex text-[10px] lg:text-[12px] mt-2 text-purple-dark  dark:text-gray-light font-bold items-center gap-2 p-1 lg:mr-2 rounded-r-full cursor-pointer hover:bg-purple-light hover:text-white">
+        <Image src={boardIcon} alt="board" className="w-[10px] ml-1" />
+        <h4 className="flex items-center gap-1 mb-1 cursor-pointer">
           <span className="text-[18px]">+</span> New Board
         </h4>
       </div>
@@ -90,7 +86,7 @@ const Sidebar = () => {
       <div
         onClick={() => setHideSidebar(true)}
         className="absolute 
-         dark:text-gray-light  ml-4 text-purple-dark flex items-center gap-2   bottom-20 text-[10px] cursor-pointer"
+         dark:text-gray-light ml-4 text-purple-dark flex items-center gap-2   bottom-20 text-[10px] cursor-pointer"
       >
         <Image
           alt="hide"
@@ -101,7 +97,6 @@ const Sidebar = () => {
       </div>
     </div>
   );
-  ``;
 };
 
 export default Sidebar;

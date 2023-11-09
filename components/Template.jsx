@@ -6,14 +6,22 @@ import show from "@/assets/icon-show-sidebar.svg ";
 import { useSelector } from "react-redux";
 import { KanbanContext } from "@/utils/Providers ";
 import add from "@/assets/icon-add-task-mobile.svg ";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Template = () => {
-  const boards = useSelector((state) => state.kanban.boards.boards);
-  const { selectedBoard, newTaskModalOpen, hideSidebar, setHideSidebar } =
+  let boards = useSelector((state) => state.kanban.boards.boards);
+
+  const { selectedBoard, hideSidebar, setSelectedBoard, setHideSidebar } =
     useContext(KanbanContext);
+
+  useEffect(() => {
+    boards?.forEach((board) => {
+      if (board.id === selectedBoard.id) {
+        setSelectedBoard(board);
+      }
+    });
+  }, [boards]);
 
   const randomColorByIndex = (index) => {
     const colors = [
@@ -45,9 +53,7 @@ const Template = () => {
       } min-h-screen
       border-l dark:border-l-gray-700 relative font-bold text-[10px] lg:text-[12px]  p-4  bg-blue-lighter dark:bg-gray-darker`}
     >
-    
-
-      <div className="flex flex-justify-start flex-wrap gap-8">
+      <div className="flex flex-wrap gap-8 flex-justify-start">
         {selectedBoard?.columns?.map((column, index) => (
           <div
             key={index}
@@ -68,11 +74,11 @@ const Template = () => {
               </span>
             </div>
 
-            <div className="flex flex-col lg:gap-3 mt-8">
+            <div className="flex flex-col mt-8 lg:gap-3">
               {column.tasks.map((task, index) => (
                 <div
                   key={index}
-                  className="bg-white shadow-md p-2 mb-4 dark:bg-gray-dark  min-h-[70px] rounded-md"
+                  className="bg-white shadow-md cursor-pointer p-2 mb-4 dark:bg-gray-dark  min-h-[70px] rounded-md"
                 >
                   <p className=" dark:text-white text-[12px]">{task.title}</p>
                   <p className="text-gray-500 text-[10px] mt-3">
