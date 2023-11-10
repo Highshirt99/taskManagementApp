@@ -30,15 +30,21 @@ export const kanbanSlice = createSlice({
           item.columns = action.payload.columns;
         }
       });
-      //  state.selectedBoard = {
-      //     ...state.selectedBoard,
-      //     name: action.payload.name,
-      //     columns: action.payload.columns,
-      //   }
+     
     },
+
+    createBoard: (state, action) => {
+      state.boards.boards.push(action.payload)
+    },
+    deleteBoard: (state, action) => {
+    state.boards.boards = state.boards.boards.filter((board) => {
+         action.payload !== board.id
+      })
+    }
   },
 });
 
-export const { selectBoard, addNewTask, editBoard, setId } =
+export const { selectBoard, addNewTask, editBoard, setId, 
+  createBoard, deleteBoard } =
   kanbanSlice.actions;
 export default kanbanSlice.reducer;

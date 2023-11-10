@@ -46,7 +46,7 @@ const NewTask = () => {
     dispatch(addNewTask(data));
 
     setNewTaskModalOpen(false);
-    toast.success("Task created successfully", {
+    toast.success("Task created successfully.", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -61,9 +61,9 @@ const NewTask = () => {
      items-center fixed inset-0 z-[50]
       bg-black bg-opacity-10 scrollbar-hide"
     >
-      <div className="bg-white lg:w-[400px] md:w-[350px] h-fit w-[80%] p-4 rounded-md  bottom-[80px] relative top-8">
+      <div className="bg-white dark:bg-gray-dark lg:w-[400px] md:w-[350px] h-fit w-[80%] p-4 rounded-md  bottom-[80px] relative top-2">
         <div>
-          <h1 className="font-[600] text-[14px]">Add New Task</h1>
+          <h1 className="font-[600] dark:text-white text-[14px]">Add New Task</h1>
           <Image
             src={close}
             alt="close"
@@ -76,7 +76,7 @@ const NewTask = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <div>
-            <label className="font-[600] text-[12px] text-gray-light">
+            <label className="font-[600] dark:text-white text-[12px] text-gray-light">
               Title
             </label>
             <input
@@ -85,7 +85,7 @@ const NewTask = () => {
               {...register("title", { required: true })}
               className={`${
                 errors.title ? " border-red" : "border-gray-300 "
-              } border text-[12px]  rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
+              } border text-[12px] dark:bg-transparent dark:text-white  rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
             />
             {errors.title && (
               <p className=" font-medium text-red text-[11px]">
@@ -94,17 +94,17 @@ const NewTask = () => {
             )}
           </div>
           <div>
-            <label className="font-[600] text-[12px] text-gray-light">
+            <label className="font-[600] dark:text-white text-[12px] text-gray-light">
               Description
             </label>
             <textarea
               {...register("description")}
               placeholder="e.g. I need to read my books before lecture free week."
-              className="border border-gray-300 focus-none focus:border focus:border-purple-dark rounded-md p-2 outline-none w-full h-[100px] mt-1 text-[12px]"
+              className="border dark:bg-transparent dark:text-white border-gray-300 focus-none focus:border focus:border-purple-dark rounded-md p-2 outline-none w-full h-[100px] mt-1 text-[12px]"
             />
           </div>
           <div>
-            <label className="font-[600] text-[12px] text-gray-light">
+            <label className="font-[600] dark:text-white text-[12px] text-gray-light">
               Subtasks
             </label>
 
@@ -128,7 +128,7 @@ const NewTask = () => {
                       errors.subtasks && index === 0
                         ? " border-red"
                         : "border-gray-300 "
-                    } border text-[12px]  rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
+                    } border text-[12px] dark:bg-transparent dark:text-white rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
                   />
 
                   <Image
@@ -160,10 +160,10 @@ const NewTask = () => {
               {...register("status", { required: true })}
               className={`${
                 errors.status ? " border-red" : "border-gray-300  "
-              } border text-[12px] cursor-pointer  rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
+              } border text-[12px] cursor-pointer dark:bg-transparent dark:text-white rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
             >
               {selectedBoard.columns.map((column, index) => (
-                <option key={index} value={column.name}>
+                <option key={index} value={column.name} className="dark:text-black">
                   {column.name}
                 </option>
               ))}

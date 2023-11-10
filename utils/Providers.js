@@ -13,6 +13,7 @@ export const Providers = ({ children }) => {
   const [showSettings, setShowSettings] = useState(false);
   const [hideSidebar, setHideSidebar] = useState(false);
   const [showEditBoardModal, setShowEditBoardModal] = useState(false)
+  const [newBoardModalOpen, setNewBoardModalOpen] = useState(false)
 
   return (
     <Provider store={store}>
@@ -31,7 +32,9 @@ export const Providers = ({ children }) => {
           showEditBoardModal,
           setShowEditBoardModal,
           boards,
-          setBoards
+          setBoards,
+          newBoardModalOpen,
+          setNewBoardModalOpen
         }}
       >
         {children}

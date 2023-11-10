@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import boardIcon from "@/assets/icon-board.svg ";
 import { KanbanContext } from "@/utils/Providers ";
 import { selectBoard } from "@/utils/redux/slice ";
+import NewBoard from "./Modals/NewBoard";
 
 const Sidebar = () => {
   let boards = useSelector((state) => state.kanban.boards.boards);
@@ -21,6 +22,8 @@ const Sidebar = () => {
     setSelectedBoard,
     hideSidebar,
     setHideSidebar,
+    newBoardModalOpen,
+    setNewBoardModalOpen
   } = useContext(KanbanContext);
 
   useEffect(() => {
@@ -56,7 +59,9 @@ const Sidebar = () => {
         ))}
       </div>
 
-      <div className="flex text-[10px] lg:text-[12px] mt-2 text-purple-dark  dark:text-gray-light font-bold items-center gap-2 p-1 lg:mr-2 rounded-r-full cursor-pointer hover:bg-purple-light hover:text-white">
+      <div 
+      onClick={() => setNewBoardModalOpen(true)}
+      className="flex text-[10px]  dark:hover:text-white lg:text-[12px] mt-2 text-purple-dark  dark:text-gray-light font-bold items-center gap-2 p-1 lg:mr-2 rounded-r-full cursor-pointer hover:bg-purple-light hover:text-white">
         <Image src={boardIcon} alt="board" className="w-[10px] ml-1" />
         <h4 className="flex items-center gap-1 mb-1 cursor-pointer">
           <span className="text-[18px]">+</span> New Board
@@ -95,6 +100,7 @@ const Sidebar = () => {
         />
         <span>Hide sidebar</span>
       </div>
+      {newBoardModalOpen && <NewBoard/>}
     </div>
   );
 };
