@@ -11,6 +11,7 @@ export const kanbanSlice = createSlice({
   initialState,
   reducers: {
     setId: (state) => {
+      state.selectedBoard = state.boards.boards[0];
       state.boards.boards.map((board) => (board.id = Math.random() * 100000));
     },
     selectBoard: (state, action) => {
@@ -30,21 +31,28 @@ export const kanbanSlice = createSlice({
           item.columns = action.payload.columns;
         }
       });
-     
     },
 
     createBoard: (state, action) => {
-      state.boards.boards.push(action.payload)
+      state.boards.boards.push(action.payload);
     },
     deleteBoard: (state, action) => {
-    state.boards.boards = state.boards.boards.filter((board) => {
-         action.payload !== board.id
-      })
-    }
+      state.boards = {
+        boards: state.boards.boards.filter(
+          (board) => board.id !== action.payload
+        ),
+      };
+      state.selectedBoard = state.boards.boards[0]
+    },
   },
 });
 
-export const { selectBoard, addNewTask, editBoard, setId, 
-  createBoard, deleteBoard } =
-  kanbanSlice.actions;
+export const {
+  selectBoard,
+  addNewTask,
+  editBoard,
+  setId,
+  createBoard,
+  deleteBoard,
+} = kanbanSlice.actions;
 export default kanbanSlice.reducer;
