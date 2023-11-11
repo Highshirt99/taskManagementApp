@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { KanbanContext } from "@/utils/Providers ";
 import { deleteBoard } from "@/utils/redux/slice ";
 import { useDispatch } from "react-redux";
-import ConfirmDelete from "./Modals/confirmDelete";
+import ConfirmDelete from "./Modals/ConfirmDelete";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
