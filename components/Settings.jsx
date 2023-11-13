@@ -18,7 +18,7 @@ const Settings = () => {
 
   const handleDeleteBoard = () => {
     dispatch(deleteBoard(selectedBoard.id));
-    setShowConfirmBox(false)
+    setShowConfirmBox(false);
     setShowSettings(false);
     toast.success("Board Deleted successfully.", {
       position: "top-right",
@@ -35,13 +35,13 @@ const Settings = () => {
         className={`${
           showSettings ? "opacity-100  h-[80px]" : "opacity-0 h-0"
         } bg-white z-[100000]
-      text-center p-3 rounded-md text-[12px] w-[150px] dark:text-gray-500 dark:bg-black transition-all duration-500 border top-12
+      text-center p-3 rounded-md text-[12px] w-[150px] dark:text-gray-500 dark:bg-gray-dark transition-all duration-500 border top-12
        right-4 shadow-sm absolute`}
       >
         <p
           onClick={() => {
             setShowEditBoardModal(true);
-          
+            setShowSettings(false);
           }}
           className="text-gray-light w-full mb-2 hover:font-bold cursor-pointer"
         >
@@ -49,14 +49,19 @@ const Settings = () => {
         </p>
 
         <p
-          onClick={() => setShowConfirmBox(true) &  setShowSettings(false)}
+          onClick={() => setShowConfirmBox(true) & setShowSettings(false)}
           className="text-red cursor-pointer w-full hover:font-bold mt-4"
         >
           Delete board
         </p>
       </div>
-      {showConfirmBox && 
-      <ConfirmDelete setShowSettings = {setShowSettings} handleDeleteBoard = {handleDeleteBoard} setShowConfirmBox={setShowConfirmBox}/>}
+      {showConfirmBox && (
+        <ConfirmDelete
+          setShowSettings={setShowSettings}
+          handleDeleteBoard={handleDeleteBoard}
+          setShowConfirmBox={setShowConfirmBox}
+        />
+      )}
     </>
   );
 };

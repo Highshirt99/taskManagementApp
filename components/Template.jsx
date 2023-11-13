@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext, useEffect } from "react";
-import Header from "@/components/Header ";
 import Image from "next/image";
 import show from "@/assets/icon-show-sidebar.svg ";
 import { useSelector } from "react-redux";
@@ -8,12 +7,24 @@ import { KanbanContext } from "@/utils/Providers ";
 import add from "@/assets/icon-add-task-mobile.svg ";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NewBoard from "./Modals/NewBoard";
+import NewTask from "./Modals/NewTask";
+import EditBoard from "./Modals/EditBoard";
 
 const Template = () => {
   let boards = useSelector((state) => state.kanban.boards.boards);
 
-  const { selectedBoard, hideSidebar, setSelectedBoard, setHideSidebar } =
-    useContext(KanbanContext);
+  const {
+    selectedBoard,
+    hideSidebar,
+    setSelectedBoard,
+    setHideSidebar,
+    setShowEditBoardModal,
+    newBoardModalOpen,
+    newTaskModalOpen,
+    showEditBoardModal 
+
+  } = useContext(KanbanContext);
 
   useEffect(() => {
     boards?.forEach((board) => {
@@ -49,15 +60,15 @@ const Template = () => {
   return (
     <div
       className={` ${
-        hideSidebar ? "w-full" : "lg:w-[85%] w-[80%] "
+        hideSidebar ? "w-full" : "lg:w-[85%] md:w-[80%] w-[100%] "
       } min-h-screen
       border-l dark:border-l-gray-700 relative font-bold text-[10px] lg:text-[12px]  p-4  bg-blue-lighter dark:bg-gray-darker`}
     >
-      <div className="flex flex-wrap gap-8 flex-justify-start">
+      <div className="flex flex-col lg:flex-row md:flex-row md:flex-wrap gap-8">
         {selectedBoard?.columns?.map((column, index) => (
           <div
             key={index}
-            className="flex  flex-col self-start gap-1 w-[200px] md:w-[250px] lg:w-[250px] h-auto"
+            className="flex flex-col lg:mx-0 md:mx-0 mx-auto md:self-start lg:self-start gap-1 w-[90%] md:w-[250px] lg:w-[250px] h-auto"
           >
             <div className="flex items-center gap-1">
               <div
@@ -66,7 +77,7 @@ const Template = () => {
                   backgroundColor: randomColorByIndex(index),
                 }}
               ></div>
-              <p className="text-purple-dark dark:text-gray-500">
+              <p className="text-purple-dark uppercase tracking-[1px] dark:text-gray-500">
                 {column.name}
               </p>
               <span className="text-purple-dark dark:text-gray-500">
@@ -74,7 +85,7 @@ const Template = () => {
               </span>
             </div>
 
-            <div className="flex flex-col mt-8 lg:gap-3">
+            <div className="flex flex-col mt-2 md:mt-6 lg:mt-8 lg:gap-3">
               {column.tasks.map((task, index) => (
                 <div
                   key={index}
@@ -103,12 +114,19 @@ const Template = () => {
       </div>
 
       <div
-        className="bg-gray-light text-white lg:h-[70vh] md:w-[250px] w-[200px] lg:w-[120px] flex items-center
-      justify-center rounded-md lg:absolute h-[60px]  right-4 top-16 cursor-pointer gap-2"
+        className="bg-gray-light mx-auto text-white lg:h-[70vh] md:w-[250px] w-[90%] lg:w-[120px] flex items-center
+      justify-center rounded-md lg:absolute h-[60px]   right-4 top-16 cursor-pointer gap-2"
+        onClick={() => {
+          setShowEditBoardModal(true);
+        }}
       >
         <Image src={add} alt="add" />
         <span>New Column</span>
       </div>
+      {newBoardModalOpen && <NewBoard/>}
+      {newTaskModalOpen && <NewTask />}
+      {showEditBoardModal && <EditBoard />}
+
       <ToastContainer />
     </div>
   );

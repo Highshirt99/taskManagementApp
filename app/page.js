@@ -6,10 +6,11 @@ import Header from "@/components/Header ";
 import { useDispatch, useSelector } from "react-redux";
 import { KanbanContext } from "@/utils/Providers ";
 import { setId } from "@/utils/redux/slice ";
+import TopBar from "@/components/TopBar ";
 
 export default function Home() {
   const dispatch = useDispatch()
-  const { theme } = useContext(KanbanContext);
+  const { theme, showTopBar } = useContext(KanbanContext);
   const boards = useSelector((state) => state.kanban.boards.boards);
 
   useEffect(() => {
@@ -26,10 +27,11 @@ export default function Home() {
   }, [theme]);
 
   return (
-    <div className="relative">
+    <div className="relative scrollbar-hide">
       <Header />
 
-      <main className="flex min-h-screen dark:bg-gray-dark">
+      <main className="lg:flex md:flex min-h-screen dark:bg-gray-dark">
+        <TopBar/> 
         <Sidebar />
         <Template boards={boards} />
       </main>
