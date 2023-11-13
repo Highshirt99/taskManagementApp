@@ -89,7 +89,7 @@ const Template = () => {
               {column.tasks.map((task, index) => (
                 <div
                   key={index}
-                  className="bg-white shadow-md cursor-pointer p-2 mb-4 dark:bg-gray-dark  min-h-[70px] rounded-md"
+                  className="bg-white shadow-md cursor-grab p-2 mb-4 dark:bg-gray-dark  min-h-[70px] rounded-md"
                 >
                   <p className=" dark:text-white text-[12px]">{task.title}</p>
                   <p className="text-gray-500 text-[10px] mt-3">

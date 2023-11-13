@@ -28,8 +28,8 @@ const Header = () => {
     <header className="relative flex items-center justify-around md:justify-between lg:justify-between w-full pl-2 pr-4 border-b md:pr-8 lg:pr-12 dark:border-b-gray-700 dark:bg-gray-dark">
       <Logo />
       <div className="flex items-center gap-3">
-        <h1 className="lg:text-[14px] font-bold right-4 relative lg:right-[20rem] dark:text-white">
-         {selectedBoard.name}
+        <h1 className="text-[18px]  font-bold right-4 relative lg:right-[20rem] dark:text-white">
+         {selectedBoard?.name}
         </h1>
         <Image
           src={showTopBar ? arrow_up : arrow_down}
@@ -41,7 +41,7 @@ const Header = () => {
       <div className="flex items-center gap-6 lg:gap-8">
         <button
           onClick={() => setNewTaskModalOpen(true)}
-          className="gap-1 p-1 h-[30px] w-[30px] items-center justify-center md:w-[120px] md:rounded-full lg:w-[120px] flex text-white rounded-[50%] lg:rounded-full  text-[12px] bg-purple-dark"
+          className="gap-1 p-1 h-[30px] w-[30px] hover:bg-purple-light items-center justify-center md:w-[120px] md:rounded-full lg:w-[120px] flex text-white rounded-[50%] lg:rounded-full  text-[12px] bg-purple-dark"
         >
           <Image alt="add" src={add} className="w-[10px]" />
           <span className="hidden lg:block md:block">Add New Task</span>
@@ -53,8 +53,7 @@ const Header = () => {
           onClick={() => setShowSettings(!showSettings)}
         />
       </div>
-      {/* {newTaskModalOpen && <NewTask />}
-      {showEditBoardModal && <EditBoard />} */}
+
       <Settings />
     </header>
   );

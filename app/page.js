@@ -9,14 +9,14 @@ import { setId } from "@/utils/redux/slice ";
 import TopBar from "@/components/TopBar ";
 
 export default function Home() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { theme, showTopBar } = useContext(KanbanContext);
   const boards = useSelector((state) => state.kanban.boards.boards);
 
   useEffect(() => {
-    dispatch(setId())
-  },[])
- 
+    dispatch(setId());
+  }, []);
+
   useEffect(() => {
     // Ensure that the body class matches the current theme mode
     if (theme === "dark") {
@@ -31,8 +31,7 @@ export default function Home() {
       <Header />
 
       <main className="lg:flex md:flex min-h-screen dark:bg-gray-dark">
-        <TopBar/> 
-        <Sidebar />
+        {showTopBar ? <TopBar /> : <Sidebar />}
         <Template boards={boards} />
       </main>
     </div>
