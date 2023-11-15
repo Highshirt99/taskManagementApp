@@ -15,6 +15,8 @@ export const Providers = ({ children }) => {
   const [showEditBoardModal, setShowEditBoardModal] = useState(false);
   const [newBoardModalOpen, setNewBoardModalOpen] = useState(false);
   const [showTopBar, setShowTopBar] = useState(false);
+  const [showTaskDetails, setShowTaskDetails] = useState(false);
+  const [taskId, setTaskId] = useState("");
 
   return (
     <Provider store={store}>
@@ -37,7 +39,11 @@ export const Providers = ({ children }) => {
           newBoardModalOpen,
           setNewBoardModalOpen,
           showTopBar,
-          setShowTopBar
+          setShowTopBar,
+          showTaskDetails,
+          setShowTaskDetails,
+          taskId,
+          setTaskId
         }}
       >
         {children}

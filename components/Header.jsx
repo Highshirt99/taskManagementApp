@@ -5,9 +5,7 @@ import settings from "@/assets/icon-vertical-ellipsis.svg ";
 import add from "@/assets/icon-add-task-mobile.svg ";
 import Logo from "./Logo";
 import { KanbanContext } from "@/utils/Providers ";
-import NewTask from "./Modals/NewTask";
 import Settings from "./Settings";
-import EditBoard from "./Modals/EditBoard";
 import arrow_down from "@/assets/icon-chevron-down.svg ";
 import arrow_up from "@/assets/icon-chevron-up.svg ";
 
@@ -47,7 +45,7 @@ const Header = () => {
           <span className="hidden lg:block md:block">Add New Task</span>
         </button>
         <Image
-          className="cursor-pointer"
+          className="cursor-pointer w-[5px]"
           src={settings}
           alt="settings"
           onClick={() => setShowSettings(!showSettings)}

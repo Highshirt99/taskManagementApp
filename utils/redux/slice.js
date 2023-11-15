@@ -12,8 +12,29 @@ export const kanbanSlice = createSlice({
   reducers: {
     setId: (state) => {
       state.selectedBoard = state.boards.boards[0];
+      // set ids's for boards
       state.boards.boards.map((board) => (board.id = Math.random() * 100000));
+      // set ids's for tasks
+      state.boards.boards.forEach((board) => {
+        board.columns.forEach((column) => {
+          column.tasks.map((task) => {
+            task.id = Math.random() * 1000000000;
+          });
+        });
+      });
+
+      // set ids's for subtasks
+      state.boards.boards.forEach((board) => {
+        board.columns.forEach((column) => {
+          column.tasks.forEach((task) => {
+            task.subtasks.map((subtask) => {
+              subtask.id = Math.random() * 100000000;
+            });
+          });
+        });
+      });
     },
+
     selectBoard: (state, action) => {
       state.selectedBoard = action.payload;
     },
@@ -42,7 +63,30 @@ export const kanbanSlice = createSlice({
           (board) => board.id !== action.payload
         ),
       };
-      state.selectedBoard = state.boards.boards[0]
+      state.selectedBoard = state.boards.boards[0];
+    },
+    markCompleted: (state, action) => {
+      state.selectedBoard.columns.forEach((column) => {
+        column.tasks.forEach((task) => {
+          task.subtasks.map((subtask) => {
+            if (subtask.id === action.payload.id) {
+              subtask.isCompleted = !subtask.isCompleted;
+            }
+          });
+        });
+      });
+
+      state.boards.boards.forEach((board) => {
+        board.columns.forEach((column) => {
+          column.tasks.forEach((task) => {
+            task.subtasks.map((subtask) => {
+              if (subtask.id === action.payload.id) {
+                subtask.isCompleted = !subtask.isCompleted;
+              }
+            });
+          });
+        });
+      });
     },
   },
 });
@@ -54,5 +98,6 @@ export const {
   setId,
   createBoard,
   deleteBoard,
+  markCompleted,
 } = kanbanSlice.actions;
 export default kanbanSlice.reducer;

@@ -10,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import NewBoard from "./Modals/NewBoard";
 import NewTask from "./Modals/NewTask";
 import EditBoard from "./Modals/EditBoard";
+import TaskDetails from "./Modals/TaskDetails";
 
 const Template = () => {
   let boards = useSelector((state) => state.kanban.boards.boards);
@@ -22,8 +23,10 @@ const Template = () => {
     setShowEditBoardModal,
     newBoardModalOpen,
     newTaskModalOpen,
-    showEditBoardModal 
-
+    showEditBoardModal,
+    showTaskDetails,
+    setShowTaskDetails,
+    setTaskId
   } = useContext(KanbanContext);
 
   useEffect(() => {
@@ -87,11 +90,13 @@ const Template = () => {
 
             <div className="flex flex-col mt-2 md:mt-6 lg:mt-8 lg:gap-3">
               {column.tasks.map((task, index) => (
+                 
                 <div
                   key={index}
+                  onClick={() => setShowTaskDetails(true) & setTaskId(task.id)}
                   className="bg-white shadow-md cursor-grab p-2 mb-4 dark:bg-gray-dark  min-h-[70px] rounded-md"
                 >
-                  <p className=" dark:text-white text-[12px]">{task.title}</p>
+                  <p className="dark:text-white text-[12px]">{task.title}</p>
                   <p className="text-gray-500 text-[10px] mt-3">
                     {`${checkCompleted(task).length} of ${
                       task.subtasks?.length
@@ -99,9 +104,11 @@ const Template = () => {
                     subtasks
                   </p>
                 </div>
+                
               ))}
             </div>
           </div>
+       
         ))}
       </div>
       <div
@@ -123,9 +130,12 @@ const Template = () => {
         <Image src={add} alt="add" />
         <span>New Column</span>
       </div>
-      {newBoardModalOpen && <NewBoard/>}
+      {newBoardModalOpen && <NewBoard />}
       {newTaskModalOpen && <NewTask />}
       {showEditBoardModal && <EditBoard />}
+      {showTaskDetails && <TaskDetails setShowTaskDetails = {setShowTaskDetails}/>}
+
+     
 
       <ToastContainer />
     </div>
