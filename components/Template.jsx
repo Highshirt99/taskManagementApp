@@ -63,6 +63,7 @@ const Template = () => {
     return completedSubtasks;
   };
   return (
+    
     <div
       className={` ${
         hideSidebar ? "w-full" : "lg:w-[85%] md:w-[80%] w-[100%] "

@@ -30,7 +30,8 @@ const TopBar = () => {
   }, [selected]);
 
   return (
-    <div className={` ${showTopBar ? " opacity-100 h-[300px]" : "opacity-0 h-0"} ease-in-out duration-500 z-[100000] w-[70%]  top-[32%] fixed left-1/2 border -translate-y-1/2 -translate-x-1/2 mx-auto bg-white shadow-sm
+    <div className={` ${showTopBar ? " opacity-100 h-[300px] visible" : "opacity-0 h-0 invisible"} 
+    ease-in-out duration-500 z-[100000] w-[70%]  top-[32%] fixed left-1/2 border -translate-y-1/2 -translate-x-1/2 mx-auto bg-white shadow-sm
      dark:bg-gray-dark p-4 rounded-md`}>
       {" "}
       <div className=" text-purple-dark text-[10px] font-bold dark:text-gray-light">

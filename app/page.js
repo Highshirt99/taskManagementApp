@@ -31,7 +31,8 @@ export default function Home() {
       <Header />
 
       <main className="min-h-screen lg:flex md:flex dark:bg-gray-dark">
-        {showTopBar ? <TopBar /> : <Sidebar />}
+        <TopBar /> 
+         <Sidebar />
         <Template boards={boards} />
       </main>
     </div>

@@ -32,9 +32,9 @@ const Sidebar = () => {
   return (
     <div
       className={`${
-        hideSidebar ? "w-0" : "lg:w-[15%] lg:block md:block md:w-[30%]"
+        hideSidebar ? "w-0 invisible" : "lg:w-[15%]  md:w-[30%] visible"
       } ease-in-out duration-500
-    relative min-h-screen hidden`}
+    relative min-h-screen `}
     >
       <div className=" py-6 ml-6 text-purple-dark text-[10px] font-bold dark:text-gray-light">
         <h4>ALL BOARDS ({boards.length})</h4>
