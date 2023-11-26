@@ -88,6 +88,47 @@ export const kanbanSlice = createSlice({
         });
       });
     },
+    changeStatus: (state, action) => {
+      const completed = [];
+
+      state.boards.boards.forEach((board) => {
+        board.columns.forEach((column) => {
+          column.tasks.forEach((task) => {
+            if (task.id === action.payload) {
+              task.subtasks.map((subtask) => {
+                if (subtask.isCompleted) {
+                  completed.push(subtask);
+                }
+
+                // console.log(completed.length);
+
+                task.status =
+                  completed.length === 0
+                    ? board.columns[0].name
+                    : completed.length > 0 &&
+                      completed.length < task.subtasks.length
+                    ? board.columns[1].name
+                    : completed.length === task.subtasks.length
+                    ? board.columns[2].name
+                    : "";
+              });
+            }
+          });
+        });
+      });
+    },
+
+    deleteTask: (state, action) => {
+      state.boards = {
+        boards: state.boards.boards.map((board) => ({
+          ...board,
+          columns: board.columns.map((column) => ({
+            ...column,
+            tasks: column.tasks.filter((task) => task.id !== action.payload),
+          })),
+        })),
+      };
+    },
   },
 });
 
@@ -99,5 +140,7 @@ export const {
   createBoard,
   deleteBoard,
   markCompleted,
+  changeStatus,
+  deleteTask,
 } = kanbanSlice.actions;
 export default kanbanSlice.reducer;

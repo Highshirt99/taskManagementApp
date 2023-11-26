@@ -2,7 +2,7 @@
 import React, { useContext, useEffect } from "react";
 import Image from "next/image";
 import show from "@/assets/icon-show-sidebar.svg ";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { KanbanContext } from "@/utils/Providers ";
 import add from "@/assets/icon-add-task-mobile.svg ";
 import { ToastContainer, toast } from "react-toastify";
@@ -11,9 +11,11 @@ import NewBoard from "./Modals/NewBoard";
 import NewTask from "./Modals/NewTask";
 import EditBoard from "./Modals/EditBoard";
 import TaskDetails from "./Modals/TaskDetails";
+import { changeStatus } from "@/utils/redux/slice ";
 
 const Template = () => {
   let boards = useSelector((state) => state.kanban.boards.boards);
+  const dispatch = useDispatch();
 
   const {
     selectedBoard,
@@ -26,7 +28,7 @@ const Template = () => {
     showEditBoardModal,
     showTaskDetails,
     setShowTaskDetails,
-    setTaskId
+    setTaskId,
   } = useContext(KanbanContext);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const Template = () => {
       } min-h-screen
       border-l dark:border-l-gray-700 relative font-bold text-[10px] lg:text-[12px]  p-4  bg-blue-lighter dark:bg-gray-darker`}
     >
-      <div className="flex flex-col lg:flex-row md:flex-row md:flex-wrap gap-8">
+      <div className="flex flex-col gap-8 lg:flex-row md:flex-row md:flex-wrap">
         {selectedBoard?.columns?.map((column, index) => (
           <div
             key={index}
@@ -90,10 +92,13 @@ const Template = () => {
 
             <div className="flex flex-col mt-2 md:mt-6 lg:mt-8 lg:gap-3">
               {column.tasks.map((task, index) => (
-                 
                 <div
                   key={index}
-                  onClick={() => setShowTaskDetails(true) & setTaskId(task.id)}
+                  onClick={() => {
+                    setShowTaskDetails(true);
+                    setTaskId(task.id);
+                    dispatch(changeStatus(task.id));
+                  }}
                   className="bg-white shadow-md cursor-grab p-2 mb-4 dark:bg-gray-dark  min-h-[70px] rounded-md"
                 >
                   <p className="dark:text-white text-[12px]">{task.title}</p>
@@ -104,11 +109,9 @@ const Template = () => {
                     subtasks
                   </p>
                 </div>
-                
               ))}
             </div>
           </div>
-       
         ))}
       </div>
       <div
@@ -133,9 +136,9 @@ const Template = () => {
       {newBoardModalOpen && <NewBoard />}
       {newTaskModalOpen && <NewTask />}
       {showEditBoardModal && <EditBoard />}
-      {showTaskDetails && <TaskDetails setShowTaskDetails = {setShowTaskDetails}/>}
-
-     
+      {showTaskDetails && (
+        <TaskDetails setShowTaskDetails={setShowTaskDetails} />
+      )}
 
       <ToastContainer />
     </div>

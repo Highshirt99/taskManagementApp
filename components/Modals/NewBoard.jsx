@@ -41,6 +41,7 @@ const NewBoard = () => {
       tasks: [],
     });
   };
+  
   const handleDeleteColumn = (index) => {
     remove(index);
   };

@@ -30,7 +30,7 @@ export default function Home() {
     <div className="relative scrollbar-hide">
       <Header />
 
-      <main className="lg:flex md:flex min-h-screen dark:bg-gray-dark">
+      <main className="min-h-screen lg:flex md:flex dark:bg-gray-dark">
         {showTopBar ? <TopBar /> : <Sidebar />}
         <Template boards={boards} />
       </main>
