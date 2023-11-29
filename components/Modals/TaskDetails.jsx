@@ -108,21 +108,12 @@ items-center fixed inset-0 z-[100]
           ))}
         </div>
         <p className="mt-3 text-gray-500">Current Status</p>
-        <select
-          name=""
-          id=""
-          defaultValue={setDefaultValue()}
-          className="w-full p-2 mt-3 border rounded-md outline-none cursor-pointer border-purple-light"
-        >
-          {selectedBoard?.columns?.map((column, index) => (
-            <option
-              key={index}
-              // selected={column.name === task?.status }
-            >
-              {column.name}
-            </option>
-          ))}
-        </select>
+        <p className="w-full p-2 mt-3 border rounded-md outline-none cursor-pointer border-purple-light">
+          
+          {task?.status}
+        </p>
+
+      
         <TaskSettings
           showTaskSettings={showTaskSettings}
           setShowTaskSettings={setShowTaskSettings}

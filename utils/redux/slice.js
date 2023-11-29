@@ -95,12 +95,10 @@ export const kanbanSlice = createSlice({
         board.columns.forEach((column) => {
           column.tasks.forEach((task) => {
             if (task.id === action.payload) {
-              task.subtasks.map((subtask) => {
+              task.subtasks.forEach((subtask) => {
                 if (subtask.isCompleted) {
                   completed.push(subtask);
                 }
-
-                // console.log(completed.length);
 
                 task.status =
                   completed.length === 0
@@ -111,7 +109,14 @@ export const kanbanSlice = createSlice({
                     : completed.length === task.subtasks.length
                     ? board.columns[2].name
                     : "";
-              });
+                // board.columns.forEach((column) => {
+                //   if (task.status === column.name) {
+                //     column.tasks.push(task);
+                //   }
+                // }
+                // );
+              }
+              );
             }
           });
         });
