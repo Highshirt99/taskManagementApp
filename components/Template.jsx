@@ -12,6 +12,7 @@ import NewTask from "./Modals/NewTask";
 import EditBoard from "./Modals/EditBoard";
 import TaskDetails from "./Modals/TaskDetails";
 import { changeStatus } from "@/utils/redux/slice ";
+import EditTask from "./Modals/EditTask";
 
 const Template = () => {
   let boards = useSelector((state) => state.kanban.boards.boards);
@@ -29,6 +30,7 @@ const Template = () => {
     showTaskDetails,
     setShowTaskDetails,
     setTaskId,
+    editTaskModalOpen,
   } = useContext(KanbanContext);
 
   useEffect(() => {
@@ -63,7 +65,6 @@ const Template = () => {
     return completedSubtasks;
   };
   return (
-    
     <div
       className={` ${
         hideSidebar ? "w-full" : "lg:w-[85%] md:w-[80%] w-[100%] "
@@ -140,6 +141,7 @@ const Template = () => {
       {showTaskDetails && (
         <TaskDetails setShowTaskDetails={setShowTaskDetails} />
       )}
+      {editTaskModalOpen && <EditTask />}
 
       <ToastContainer />
     </div>

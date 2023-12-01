@@ -19,8 +19,6 @@ const EditBoard = () => {
     control,
     register,
     handleSubmit,
-    watch,
-    onChange,
 
     formState: { errors },
   } = useForm({

@@ -109,18 +109,37 @@ export const kanbanSlice = createSlice({
                     : completed.length === task.subtasks.length
                     ? board.columns[2].name
                     : "";
-                // board.columns.forEach((column) => {
-                //   if (task.status === column.name) {
-                //     column.tasks.push(task);
-                //   }
-                // }
+
+                // column.tasks = column.tasks.filter(
+                //   (task) => task.id !== action.payload
                 // );
-              }
-              );
+
+                // if (task.status === column.name) {
+
+                //          column.tasks.push(task);
+                //          }
+              });
             }
           });
+
+          // column.tasks.forEach(item => {
+          //   console.log(item.id, action.payload)
+          //   if(item.id === action.payload && item.status === column.name){
+          //     column.tasks.push(item)
+          //   }
+          // })
         });
       });
+
+      // state.boards.boards.forEach((board) => {
+      //   board.columns.map((column) => {
+      //     column.tasks.map((task) => {
+      //       if (task.status === column.name) {
+      //         column.tasks.push(task);
+      //       }
+      //     });
+      //   });
+      // });
     },
 
     deleteTask: (state, action) => {
@@ -133,6 +152,32 @@ export const kanbanSlice = createSlice({
           })),
         })),
       };
+    },
+
+    editTask: (state, action) => {
+      // console.log(action.payload);
+      state.boards.boards.forEach((board) => {
+        board.columns.forEach((column) => {
+          column.tasks.map((task) => {
+            if (task.id === action.payload.id) {
+              task.title = action.payload.data.title;
+              task.description = action.payload.data.description;
+              task.subtasks = action.payload.data.subtasks;
+              task.status = action.payload.data.status;
+            }
+          });
+        });
+      }),
+        state.selectedBoard.columns.forEach((column) => {
+          column.tasks.map((task) => {
+            if (task.id === action.payload.id) {
+              task.title = action.payload.data.title;
+              task.description = action.payload.data.description;
+              task.subtasks = action.payload.data.subtasks;
+              task.status = action.payload.data.status;
+            }
+          });
+        });
     },
   },
 });
@@ -147,5 +192,6 @@ export const {
   markCompleted,
   changeStatus,
   deleteTask,
+  editTask,
 } = kanbanSlice.actions;
 export default kanbanSlice.reducer;

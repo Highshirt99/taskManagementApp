@@ -10,7 +10,7 @@ const TaskSettings = ({ showTaskSettings, setShowTaskSettings, task }) => {
   const dispatch = useDispatch();
   const [showConfirmBox, setShowConfirmBox] = useState(false);
 
-  const { setShowTaskDetails, selectedBoard } = useContext(KanbanContext);
+  const { setShowTaskDetails, setEditTaskModalOpen } = useContext(KanbanContext);
 
   const handleDeleteTask = () => {
     dispatch(deleteTask(task?.id));
@@ -37,8 +37,9 @@ const TaskSettings = ({ showTaskSettings, setShowTaskSettings, task }) => {
       >
         <p
           onClick={() => {
-            // setShowEditTaskModal(true);
+            setEditTaskModalOpen(true);
             setShowTaskSettings(false);
+            setShowTaskDetails(false);  
           }}
           className="w-full mb-2 cursor-pointer text-gray-light hover:font-bold"
         >

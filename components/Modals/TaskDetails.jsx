@@ -7,10 +7,12 @@ import { changeStatus, markCompleted } from "@/utils/redux/slice ";
 import { useDispatch } from "react-redux";
 import { KanbanContext } from "@/utils/Providers ";
 import TaskSettings from "../TaskSettings";
+import EditTask from "./EditTask";
 
 const TaskDetails = ({ setShowTaskDetails }) => {
-  const { taskId, selectedBoard } = useContext(KanbanContext);
-  const [task, setTask] = useState(null);
+  const { taskId, selectedBoard, editTaskModalOpen,task, setTask } =
+    useContext(KanbanContext);
+  // const [task, setTask] = useState(null);
   const [showTaskSettings, setShowTaskSettings] = useState(false);
 
   const dispatch = useDispatch();
@@ -109,17 +111,16 @@ items-center fixed inset-0 z-[100]
         </div>
         <p className="mt-3 text-gray-500">Current Status</p>
         <p className="w-full p-2 mt-3 border rounded-md outline-none cursor-pointer border-purple-light">
-          
           {task?.status}
         </p>
 
-      
         <TaskSettings
           showTaskSettings={showTaskSettings}
           setShowTaskSettings={setShowTaskSettings}
-          task={task}
+        
         />
       </div>
+      {/* {editTaskModalOpen && <EditTask task={task} />} */}
     </div>
   );
 };
