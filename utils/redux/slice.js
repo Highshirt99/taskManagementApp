@@ -4,6 +4,7 @@ import boards from "../../data.json";
 const initialState = {
   boards: boards,
   selectedBoard: boards.boards[0],
+  newTask: {},
 };
 
 export const kanbanSlice = createSlice({
@@ -88,13 +89,14 @@ export const kanbanSlice = createSlice({
         });
       });
     },
+
     changeStatus: (state, action) => {
       const completed = [];
 
       state.boards.boards.forEach((board) => {
         board.columns.forEach((column) => {
           column.tasks.forEach((task) => {
-            if (task.id === action.payload) {
+            if (task.id === action.payload.id) {
               task.subtasks.forEach((subtask) => {
                 if (subtask.isCompleted) {
                   completed.push(subtask);
@@ -110,36 +112,60 @@ export const kanbanSlice = createSlice({
                     ? board.columns[2].name
                     : "";
 
-                // column.tasks = column.tasks.filter(
-                //   (task) => task.id !== action.payload
-                // );
-
-                // if (task.status === column.name) {
-
-                //          column.tasks.push(task);
-                //          }
+                state.newTask = {
+                  ...action.payload,
+                  status: task.status,
+                };
               });
             }
           });
-
-          // column.tasks.forEach(item => {
-          //   console.log(item.id, action.payload)
-          //   if(item.id === action.payload && item.status === column.name){
-          //     column.tasks.push(item)
-          //   }
-          // })
         });
       });
 
-      // state.boards.boards.forEach((board) => {
-      //   board.columns.map((column) => {
-      //     column.tasks.map((task) => {
-      //       if (task.status === column.name) {
-      //         column.tasks.push(task);
-      //       }
-      //     });
+
+      // const updatedBoards = state.boards.boards.map((board) => {
+      //   if (state.selectedBoard.id !== board.id) return board;
+
+      //   const oldColumnIndex = board.columns.findIndex(
+      //     (column) => column.name === action.payload.status
+      //   );
+
+      //   const newColumnIndex = board.columns.findIndex(
+      //     (column) => column.name === state.newTask.status
+      //   );
+
+      //   if (oldColumnIndex === -1 || newColumnIndex === -1) return board;
+
+      //   const updatedColumns = [...board.columns];
+      //   const oldColumn = updatedColumns[oldColumnIndex];
+      //   const newColumn = updatedColumns[newColumnIndex];
+
+      //   const updatedTasks = oldColumn.tasks.filter(
+      //     (t) => t.id !== action.payload.id
+      //   );
+
+      //   // oldColumn = {
+      //   //   ...oldColumn,
+      //   //   tasks: updatedTasks,
+      //   // };
+
+      //   oldColumn.tasks = updatedTasks;
+      //   newColumn.tasks.push(state.newTask);
+
+      //   // console.log({
+      //   //   oldColumn,
+      //   //   newColumn,
+      //   // });
+
+      //   return (board = {
+      //     ...board,
+      //     columns: updatedColumns,
       //   });
       // });
+
+      // state.boards = {
+      //   boards: updatedBoards,
+      // };
     },
 
     deleteTask: (state, action) => {

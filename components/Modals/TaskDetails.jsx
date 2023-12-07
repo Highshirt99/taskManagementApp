@@ -4,14 +4,15 @@ import close from "@/assets/icon-cross.svg ";
 import check from "@/assets/icon-check.svg ";
 import settings from "@/assets/icon-vertical-ellipsis.svg ";
 import { changeStatus, markCompleted } from "@/utils/redux/slice ";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { KanbanContext } from "@/utils/Providers ";
 import TaskSettings from "../TaskSettings";
-import EditTask from "./EditTask";
 
-const TaskDetails = ({ setShowTaskDetails }) => {
-  const { taskId, selectedBoard, editTaskModalOpen,task, setTask } =
-    useContext(KanbanContext);
+const TaskDetails = ({ setShowTaskDetails, updateTaskStatus }) => {
+  const { taskId, selectedBoard, task, setTask } = useContext(KanbanContext);
+
+  const boards = useSelector((state) => state.kanban.boards.boards);
   // const [task, setTask] = useState(null);
   const [showTaskSettings, setShowTaskSettings] = useState(false);
 
@@ -37,18 +38,13 @@ const TaskDetails = ({ setShowTaskDetails }) => {
     return completedSubtasks;
   };
 
+
   const markSubtaskCompleted = (subtask) => {
     dispatch(markCompleted(subtask));
-    dispatch(changeStatus(taskId));
+    dispatch(changeStatus(task));
+    // updateTaskStatus()
   };
 
-  const setDefaultValue = () => {
-    selectedBoard.columns.forEach((column) => {
-      if (column.name === task?.status) {
-        return task?.status;
-      }
-    });
-  };
   return (
     <div
       className="backdrop-blur-sm overflow-scroll shadow-md flex justify-center
@@ -117,7 +113,6 @@ items-center fixed inset-0 z-[100]
         <TaskSettings
           showTaskSettings={showTaskSettings}
           setShowTaskSettings={setShowTaskSettings}
-        
         />
       </div>
       {/* {editTaskModalOpen && <EditTask task={task} />} */}

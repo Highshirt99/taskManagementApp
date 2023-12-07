@@ -41,7 +41,8 @@ const EditTask = () => {
 
   const onSubmit = (data) => {
     dispatch(editTask({data: data,
-    id: task.id}));
+    id: task.id,
+  }));
 
     setEditTaskModalOpen(false);
     toast.success("Task updated successfully.", {

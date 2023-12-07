@@ -11,8 +11,9 @@ import NewBoard from "./Modals/NewBoard";
 import NewTask from "./Modals/NewTask";
 import EditBoard from "./Modals/EditBoard";
 import TaskDetails from "./Modals/TaskDetails";
-import { changeStatus } from "@/utils/redux/slice ";
+import { changeStatus, selectBoard } from "@/utils/redux/slice ";
 import EditTask from "./Modals/EditTask";
+
 
 const Template = () => {
   let boards = useSelector((state) => state.kanban.boards.boards);
@@ -31,6 +32,7 @@ const Template = () => {
     setShowTaskDetails,
     setTaskId,
     editTaskModalOpen,
+    task,
   } = useContext(KanbanContext);
 
   useEffect(() => {
@@ -64,10 +66,56 @@ const Template = () => {
     });
     return completedSubtasks;
   };
+
+  const updateTaskStatus = () => {
+    // const indexOfCurrentBoard = boards.indexOf(
+    // selectedBoard
+    // );
+    // console.log(indexOfCurrentBoard);
+
+    let selectedBoard_C = { ...selectedBoard };
+   
+
+    const checkTodo = task?.status === "Todo";
+    const checkDoing = task?.status === "Doing";
+    const checkDone = task?.status === "Done";
+    if (checkTodo) {
+      const filtered = selectedBoard_C.columns[0].tasks.filter(
+        (item) => item.title != task.title
+      );
+      selectedBoard_C.columns[0].tasks = filtered;
+      dispatch(selectBoard(selectedBoard_C));
+
+    }
+
+    if (checkDoing) {
+      const filtered = selectedBoard_C.columns[1].tasks.filter(
+        (item) => item.title != task.title
+      );
+      selectedBoard_C.columns[1].tasks = filtered;
+
+      dispatch(selectBoard(selectedBoard_C));
+
+    }
+    if (checkDone) {
+      const filtered = selectedBoard_C.columns[2].tasks.filter(
+        (item) => item.title != task.title
+      );
+      selectedBoard_C.columns[2].tasks = filtered;
+
+      dispatch(selectBoard(selectedBoard_C));
+      
+    }
+    // console.log(checkTodo, checkDoing, checkDone)
+    //  selectedBoard_C.find((item) => {
+
+    // });
+  };
+
   return (
     <div
       className={` ${
-        hideSidebar ? "w-full" : "lg:w-[85%] md:w-[80%] w-[100%] "
+        hideSidebar ? "w-full" : "lg:w-[85%] md:w-[80%] w-[100%]"
       } min-h-screen
       border-l dark:border-l-gray-700 relative font-bold text-[10px] lg:text-[12px]  p-4  bg-blue-lighter dark:bg-gray-darker`}
     >
@@ -139,7 +187,7 @@ const Template = () => {
       {newTaskModalOpen && <NewTask />}
       {showEditBoardModal && <EditBoard />}
       {showTaskDetails && (
-        <TaskDetails setShowTaskDetails={setShowTaskDetails} />
+        <TaskDetails setShowTaskDetails={setShowTaskDetails} updateTaskStatus= {updateTaskStatus}/>
       )}
       {editTaskModalOpen && <EditTask />}
 
