@@ -19,8 +19,7 @@ const NewTask = () => {
   } = useForm({
     defaultValues: {
       subtasks: [
-        { title: "", isCompleted: false },
-        { title: "", isCompleted: false },
+        { title: "", isCompleted: false , id: Math.random() * 1000000},
       ],
     },
   });
@@ -32,7 +31,7 @@ const NewTask = () => {
 
   // Add new subtask
   const handleAddNewSubtask = () => {
-    append({ title: "", isCompleted: false });
+    append({ title: "", isCompleted: false, id: Math.random() * 1000000 });
   };
 
   // Delete subtask

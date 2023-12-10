@@ -152,11 +152,11 @@ const Template = () => {
       } min-h-screen
       border-l dark:border-l-gray-700 relative font-bold text-[10px] lg:text-[12px]  p-4  bg-blue-lighter dark:bg-gray-darker`}
     >
-      <div className="flex flex-col gap-8 lg:flex-row md:flex-row md:flex-wrap">
+      <div className="grid lg:grid-cols-3 grid-cols-1 md:grid-cols-2 gap-4 ">
         {selectedBoard?.columns?.map((column, index) => (
           <div
             key={index}
-            className="flex flex-col lg:mx-0 md:mx-0 mx-auto md:self-start lg:self-start gap-1 w-[90%] md:w-[250px] lg:w-[250px] h-auto"
+            className="flex flex-col lg:mx-0 md:mx-0 mx-auto md:self-start lg:self-start gap-1 w-[90%] md:w-[250px] lg:w-[230px] h-auto"
           >
             <div className="flex items-center gap-1">
               <div
@@ -201,7 +201,7 @@ const Template = () => {
         onClick={() => setHideSidebar(false)}
         className={` ${
           hideSidebar ? "block" : "hidden"
-        } bg-purple-dark p-1  cursor-pointer absolute rounded-r-full w-[30px] h-[25px] left-0 bottom-24`}
+        } bg-purple-dark p-1 cursor-pointer absolute rounded-r-full w-[30px] h-[25px] left-0 bottom-24`}
       >
         <Image src={show} alt="eye" className="mt-1" />
       </div>

@@ -38,7 +38,7 @@ const TaskDetails = ({ setShowTaskDetails, updateTaskStatus }) => {
   };
 
   const markSubtaskCompleted = (subtask) => {
-    // dispatch(markCompleted(subtask));
+    dispatch(markCompleted(subtask));
     dispatch(changeStatus({
       task:task,
       subTask:subtask
