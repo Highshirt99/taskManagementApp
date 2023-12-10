@@ -66,11 +66,37 @@ export const kanbanSlice = createSlice({
       };
       state.selectedBoard = state.boards.boards[0];
     },
-    markCompleted: (state, action) => {
+    // markCompleted: (state, action) => {
+    //   state.selectedBoard.columns.forEach((column) => {
+    //     column.tasks.forEach((task) => {
+    //       task.subtasks.map((subtask) => {
+    //         if (subtask.id === action.payload.id) {
+    //           subtask.isCompleted = !subtask.isCompleted;
+    //         }
+    //       });
+    //     });
+    //   });
+
+    //   state.boards.boards.forEach((board) => {
+    //     board.columns.forEach((column) => {
+    //       column.tasks.forEach((task) => {
+    //         task.subtasks.map((subtask) => {
+    //           if (subtask.id === action.payload.id) {
+    //             subtask.isCompleted = !subtask.isCompleted;
+    //           }
+    //         });
+    //       });
+    //     });
+    //   });
+    // },
+
+    changeStatus: (state, action) => {
+      const completed = [];
+      // console.log(action.payload);
       state.selectedBoard.columns.forEach((column) => {
         column.tasks.forEach((task) => {
           task.subtasks.map((subtask) => {
-            if (subtask.id === action.payload.id) {
+            if (subtask.id === action.payload.subTask?.id) {
               subtask.isCompleted = !subtask.isCompleted;
             }
           });
@@ -81,22 +107,18 @@ export const kanbanSlice = createSlice({
         board.columns.forEach((column) => {
           column.tasks.forEach((task) => {
             task.subtasks.map((subtask) => {
-              if (subtask.id === action.payload.id) {
+              if (subtask.id === action.payload.subTask?.id) {
                 subtask.isCompleted = !subtask.isCompleted;
               }
             });
           });
         });
       });
-    },
-
-    changeStatus: (state, action) => {
-      const completed = [];
 
       state.boards.boards.forEach((board) => {
         board.columns.forEach((column) => {
           column.tasks.forEach((task) => {
-            if (task.id === action.payload.id) {
+            if (task.id === action.payload.task?.id) {
               task.subtasks.forEach((subtask) => {
                 if (subtask.isCompleted) {
                   completed.push(subtask);
@@ -111,23 +133,49 @@ export const kanbanSlice = createSlice({
                     : completed.length === task.subtasks.length
                     ? board.columns[2].name
                     : "";
-
-                state.newTask = {
-                  ...action.payload,
-                  status: task.status,
-                };
               });
             }
+            if (action.payload.task)
+              state.newTask = {
+                ...action.payload.task,
+                status: task.status,
+              };
           });
+        });
+        if (state.selectedBoard.id !== board.id) return board;
+
+        const oldColumnIndex = board.columns.findIndex(
+          (column) => column.name === action.payload.task?.status
+        );
+
+        const newColumnIndex = board.columns.findIndex(
+          (column) => column.name === state.newTask.status
+        );
+
+        if (oldColumnIndex === -1 || newColumnIndex === -1) return board;
+
+        const updatedColumns = [...board.columns];
+        const oldColumn = updatedColumns[oldColumnIndex];
+        const newColumn = updatedColumns[newColumnIndex];
+
+        const updatedTasks = oldColumn.tasks.filter(
+          (t) => t.id !== action.payload.task?.id
+        );
+
+        oldColumn.tasks = updatedTasks;
+        newColumn.tasks.push(state.newTask);
+
+        return (board = {
+          ...board,
+          columns: updatedColumns,
         });
       });
 
-
-      // const updatedBoards = state.boards.boards.map((board) => {
+      //  state.boards.boards.forEach((board) => {
       //   if (state.selectedBoard.id !== board.id) return board;
 
       //   const oldColumnIndex = board.columns.findIndex(
-      //     (column) => column.name === action.payload.status
+      //     (column) => column.name === action.payload.task?.status
       //   );
 
       //   const newColumnIndex = board.columns.findIndex(
@@ -141,21 +189,11 @@ export const kanbanSlice = createSlice({
       //   const newColumn = updatedColumns[newColumnIndex];
 
       //   const updatedTasks = oldColumn.tasks.filter(
-      //     (t) => t.id !== action.payload.id
+      //     (t) => t.id !== action.payload.task?.id
       //   );
-
-      //   // oldColumn = {
-      //   //   ...oldColumn,
-      //   //   tasks: updatedTasks,
-      //   // };
 
       //   oldColumn.tasks = updatedTasks;
       //   newColumn.tasks.push(state.newTask);
-
-      //   // console.log({
-      //   //   oldColumn,
-      //   //   newColumn,
-      //   // });
 
       //   return (board = {
       //     ...board,

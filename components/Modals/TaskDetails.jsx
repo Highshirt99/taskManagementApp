@@ -13,7 +13,6 @@ const TaskDetails = ({ setShowTaskDetails, updateTaskStatus }) => {
   const { taskId, selectedBoard, task, setTask } = useContext(KanbanContext);
 
   const boards = useSelector((state) => state.kanban.boards.boards);
-  // const [task, setTask] = useState(null);
   const [showTaskSettings, setShowTaskSettings] = useState(false);
 
   const dispatch = useDispatch();
@@ -38,11 +37,13 @@ const TaskDetails = ({ setShowTaskDetails, updateTaskStatus }) => {
     return completedSubtasks;
   };
 
-
   const markSubtaskCompleted = (subtask) => {
-    dispatch(markCompleted(subtask));
-    dispatch(changeStatus(task));
-    // updateTaskStatus()
+    // dispatch(markCompleted(subtask));
+    dispatch(changeStatus({
+      task:task,
+      subTask:subtask
+    }));
+    // updateTaskStatus();
   };
 
   return (
