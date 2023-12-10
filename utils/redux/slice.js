@@ -41,14 +41,14 @@ export const kanbanSlice = createSlice({
     },
     addNewTask: (state, action) => {
       state.selectedBoard.columns.forEach((column) => {
-        if (action.payload.status.toLowerCase() === column.name.toLowerCase()) {
+        if ( action.payload.status.toLowerCase() === column.name.toLowerCase()) {
           column.tasks.push(action.payload);
         }
       });
 
       state.boards.boards.forEach(board => {
         board.columns.forEach(column => {
-          if (action.payload.status.toLowerCase() === column.name.toLowerCase()) {
+          if (board.id === state.selectedBoard.id && action.payload.status.toLowerCase() === column.name.toLowerCase()) {
             column.tasks.push(action.payload);
           }
         })
