@@ -60,7 +60,7 @@ const EditTask = () => {
      items-center fixed inset-0 z-[50]
       bg-black bg-opacity-10 scrollbar-hide"
     >
-      <div className="bg-white dark:bg-gray-dark lg:w-[400px] md:w-[350px] h-fit w-[80%] p-4 rounded-md relative top-12">
+      <div className="bg-white dark:bg-gray-dark lg:w-[400px] md:w-[350px] h-fit w-[80%] p-4 rounded-md relative top-2">
         <div>
           <h1 className="font-[600] dark:text-white text-[14px]">Edit Task</h1>
           <Image

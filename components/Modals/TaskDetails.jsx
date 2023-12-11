@@ -9,10 +9,9 @@ import { useDispatch } from "react-redux";
 import { KanbanContext } from "@/utils/Providers ";
 import TaskSettings from "../TaskSettings";
 
-const TaskDetails = ({ setShowTaskDetails, updateTaskStatus }) => {
+const TaskDetails = ({ setShowTaskDetails }) => {
   const { taskId, selectedBoard, task, setTask } = useContext(KanbanContext);
 
-  const boards = useSelector((state) => state.kanban.boards.boards);
   const [showTaskSettings, setShowTaskSettings] = useState(false);
 
   const dispatch = useDispatch();
@@ -39,11 +38,12 @@ const TaskDetails = ({ setShowTaskDetails, updateTaskStatus }) => {
 
   const markSubtaskCompleted = (subtask) => {
     dispatch(markCompleted(subtask));
-    dispatch(changeStatus({
-      task:task,
-      subTask:subtask
-    }));
-    // updateTaskStatus();
+    dispatch(
+      changeStatus({
+        task: task,
+        subTask: subtask,
+      })
+    );
   };
 
   return (
@@ -74,7 +74,7 @@ items-center fixed inset-0 z-[100]
           {task?.description}
         </p>
 
-        <div className="text-gray-500">
+        <div className="text-gray-500 dark:text-white">
           <p>
             {`Substasks ( ${checkIsCompleted().length} of ${
               task?.subtasks?.length
@@ -86,19 +86,21 @@ items-center fixed inset-0 z-[100]
               key={index}
               onClick={() => markSubtaskCompleted(subtask)}
               className={` ${
-                subtask.isCompleted ? "bg-blue-lightest" : "bg-blue-lighter"
+                subtask.isCompleted
+                  ? "bg-blue-lightest dark:bg-transparent dark:border border-gray-light"
+                  : "bg-blue-lighter dark:bg-transparent dark:border border-gray-light"
               } ease-in-out cursor-pointer duration-300 flex hover:text-black hover:bg-purple-light items-center gap-4 p-2 mt-3 rounded-md`}
             >
-              <div className="border w-[15px] relative h-[15px] flex  rounded-sm cursor-pointer">
+              <div className="border w-[15px] dark:border-gray-light relative h-[15px] flex  rounded-sm cursor-pointer">
                 {subtask.isCompleted && (
-                  <div className="flex items-center justify-center w-[15px] h-[15px] rounded-sm  bg-purple-dark">
+                  <div className="flex items-center  justify-center w-[15px] h-[15px] rounded-sm  bg-purple-dark">
                     <Image src={check} alt="check" />
                   </div>
                 )}
               </div>
               <span
                 className={`${
-                  subtask.isCompleted ? "line-through" : ""
+                  subtask.isCompleted ? "line-through dark:text-gray-500" : ""
                 } text-[10px]`}
               >
                 {subtask.title}
@@ -107,7 +109,7 @@ items-center fixed inset-0 z-[100]
           ))}
         </div>
         <p className="mt-3 text-gray-500">Current Status</p>
-        <p className="w-full p-2 mt-3 border rounded-md outline-none cursor-pointer border-purple-light">
+        <p className="w-full p-2 mt-3 dark:text-white font-bold border rounded-md outline-none cursor-pointer border-purple-light">
           {task?.status}
         </p>
 
@@ -116,7 +118,6 @@ items-center fixed inset-0 z-[100]
           setShowTaskSettings={setShowTaskSettings}
         />
       </div>
-      {/* {editTaskModalOpen && <EditTask task={task} />} */}
     </div>
   );
 };

@@ -41,18 +41,21 @@ export const kanbanSlice = createSlice({
     },
     addNewTask: (state, action) => {
       state.selectedBoard.columns.forEach((column) => {
-        if ( action.payload.status.toLowerCase() === column.name.toLowerCase()) {
+        if (action.payload.status.toLowerCase() === column.name.toLowerCase()) {
           column.tasks.push(action.payload);
         }
       });
 
-      state.boards.boards.forEach(board => {
-        board.columns.forEach(column => {
-          if (board.id === state.selectedBoard.id && action.payload.status.toLowerCase() === column.name.toLowerCase()) {
+      state.boards.boards.forEach((board) => {
+        board.columns.forEach((column) => {
+          if (
+            board.id === state.selectedBoard.id &&
+            action.payload.status.toLowerCase() === column.name.toLowerCase()
+          ) {
             column.tasks.push(action.payload);
           }
-        })
-      })
+        });
+      });
     },
     editBoard: (state, action) => {
       state.boards.boards.forEach((item) => {
@@ -101,7 +104,6 @@ export const kanbanSlice = createSlice({
     changeStatus: (state, action) => {
       const completed = [];
 
-
       state.boards.boards.forEach((board) => {
         board.columns.forEach((column) => {
           column.tasks.forEach((task) => {
@@ -121,79 +123,51 @@ export const kanbanSlice = createSlice({
                     ? board.columns[2].name
                     : "";
               });
-            }
-            if (action.payload.task)
               state.newTask = {
-                ...action.payload.task,
-                status: task.status,
+                ...task,
               };
+            }
           });
         });
-        // if (state.selectedBoard.id !== board.id) return board;
-
-        // const oldColumnIndex = board.columns.findIndex(
-        //   (column) => column.name.toLowerCase() === action.payload.task?.status.toLowerCase()
-        // );
-
-        // const newColumnIndex = board.columns.findIndex(
-        //   (column) => column.name.toLowerCase() === state.newTask.status.toLowerCase()
-        // );
-
-        // if (oldColumnIndex === -1 || newColumnIndex === -1) return board;
-
-        // const updatedColumns = [...board.columns];
-        // const oldColumn = updatedColumns[oldColumnIndex];
-        // const newColumn = updatedColumns[newColumnIndex];
-
-        // const updatedTasks = oldColumn.tasks.filter(
-        //   (t) => t.id !== action.payload.task?.id
-        // );
-
-        // oldColumn.tasks = updatedTasks;
-        // newColumn.tasks.push(state.newTask);
-
-        // return (board = {
-        //   ...board,
-        //   columns: updatedColumns,
-        // });
       });
 
-      //  state.boards.boards.forEach((board) => {
-      //   if (state.selectedBoard.id !== board.id) return board;
+      const updatedBoards = state.boards.boards.map((board) => {
+        if (state.selectedBoard.id !== board.id) return board;
 
-      //   const oldColumnIndex = board.columns.findIndex(
-      //     (column) => column.name === action.payload.task?.status
-      //   );
+        const oldColumnIndex = board.columns.findIndex(
+          (column) => column.name === action.payload.task?.status
+        );
 
-      //   const newColumnIndex = board.columns.findIndex(
-      //     (column) => column.name === state.newTask.status
-      //   );
+        const newColumnIndex = board.columns.findIndex(
+          (column) => column.name === state.newTask.status
+        );
 
-      //   if (oldColumnIndex === -1 || newColumnIndex === -1) return board;
+        if (oldColumnIndex === -1 || newColumnIndex === -1) return board;
 
-      //   const updatedColumns = [...board.columns];
-      //   const oldColumn = updatedColumns[oldColumnIndex];
-      //   const newColumn = updatedColumns[newColumnIndex];
+        const updatedColumns = [...board.columns];
+        const oldColumn = updatedColumns[oldColumnIndex];
+        const newColumn = updatedColumns[newColumnIndex];
 
-      //   const updatedTasks = oldColumn.tasks.filter(
-      //     (t) => t.id !== action.payload.task?.id
-      //   );
+        const updatedTasks = oldColumn.tasks.filter(
+          (t) => t.id !== action.payload.task?.id
+        );
 
-      //   oldColumn.tasks = updatedTasks;
-      //   newColumn.tasks.push(state.newTask);
+        oldColumn.tasks = updatedTasks;
+        newColumn.tasks.push(state.newTask);
 
-      //   return (board = {
-      //     ...board,
-      //     columns: updatedColumns,
-      //   });
-      // });
+        return (board = {
+          ...board,
+          columns: updatedColumns,
+        });
+      });
 
-      // state.boards = {
-      //   boards: updatedBoards,
-      // };
+      state.boards = {
+        boards: updatedBoards,
+      };
     },
 
     deleteTask: (state, action) => {
+      console.log(action.payload);
       state.boards = {
         boards: state.boards.boards.map((board) => ({
           ...board,
@@ -206,7 +180,6 @@ export const kanbanSlice = createSlice({
     },
 
     editTask: (state, action) => {
-      // console.log(action.payload);
       state.boards.boards.forEach((board) => {
         board.columns.forEach((column) => {
           column.tasks.map((task) => {

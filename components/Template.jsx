@@ -16,7 +16,6 @@ import EditTask from "./Modals/EditTask";
 
 const Template = () => {
   let boards = useSelector((state) => state.kanban.boards.boards);
-  const newTask = useSelector((state) => state.kanban.newTask);
   const dispatch = useDispatch();
 
   const {
@@ -32,10 +31,8 @@ const Template = () => {
     setShowTaskDetails,
     setTaskId,
     editTaskModalOpen,
-    task,
-    setBoards,
+    setTask,
   } = useContext(KanbanContext);
-
   useEffect(() => {
     boards?.forEach((board) => {
       if (board.id === selectedBoard.id) {
@@ -66,83 +63,6 @@ const Template = () => {
       }
     });
     return completedSubtasks;
-  };
-
-  const updateTaskStatus = () => {
-    // const indexOfCurrentBoard = boards.indexOf(
-    // selectedBoard
-    // );
-    // console.log(indexOfCurrentBoard);
-
-    // let selectedBoard_C = { ...selectedBoard };
-
-    // const checkTodo = task?.status === "Todo";
-    // const checkDoing = task?.status === "Doing";
-    // const checkDone = task?.status === "Done";
-    // if (checkTodo) {
-    //   const filtered = selectedBoard_C.columns[0].tasks.filter(
-    //     (item) => item.title != task.title
-    //   );
-    //   selectedBoard_C.columns[0].tasks = filtered;
-    //   dispatch(selectBoard(selectedBoard_C));
-
-    // }
-
-    // if (checkDoing) {
-    //   const filtered = selectedBoard_C.columns[1].tasks.filter(
-    //     (item) => item.title != task.title
-    //   );
-    //   selectedBoard_C.columns[1].tasks = filtered;
-
-    //   dispatch(selectBoard(selectedBoard_C));
-
-    // }
-    // if (checkDone) {
-    //   const filtered = selectedBoard_C.columns[2].tasks.filter(
-    //     (item) => item.title != task.title
-    //   );
-    //   selectedBoard_C.columns[2].tasks = filtered;
-
-    //   dispatch(selectBoard(selectedBoard_C));
-
-    // }
-    // console.log(checkTodo, checkDoing, checkDone)
-    //  selectedBoard_C.find((item) => {
-
-    // });
-
-    const updatedBoards = boards.map((board) => {
-      if (selectedBoard.id !== board.id) return board;
-
-      const oldColumnIndex = board.columns.findIndex(
-        (column) => column.name === task.status
-      );
-
-      const newColumnIndex = board.columns.findIndex(
-        (column) => column.name === newTask.status
-      );
-
-      if (oldColumnIndex === -1 || newColumnIndex === -1) return board;
-
-      const updatedColumns = [...board.columns];
-      const oldColumn = updatedColumns[oldColumnIndex];
-      const newColumn = updatedColumns[newColumnIndex];
-
-      const updatedTasks = oldColumn.tasks.filter((t) => t.id !== task.id);
-
-      let oldTasks = [...oldColumn.tasks]
-      let newColumnTasks = [...newColumn.tasks]
-      oldTasks = updatedTasks;
-      newColumnTasks.push(newTask);
-      
-    selectBoard({
-      ...board,
-        columns: updatedColumns,
-    });
-
-    });
-
-    
   };
 
   return (
@@ -180,6 +100,7 @@ const Template = () => {
                   onClick={() => {
                     setShowTaskDetails(true);
                     setTaskId(task.id);
+                    setTask(task);
                     dispatch(changeStatus(task.id));
                   }}
                   className="bg-white shadow-md cursor-grab p-2 mb-4 dark:bg-gray-dark  min-h-[70px] rounded-md"
@@ -220,10 +141,7 @@ const Template = () => {
       {newTaskModalOpen && <NewTask />}
       {showEditBoardModal && <EditBoard />}
       {showTaskDetails && (
-        <TaskDetails
-          setShowTaskDetails={setShowTaskDetails}
-          updateTaskStatus={updateTaskStatus}
-        />
+        <TaskDetails setShowTaskDetails={setShowTaskDetails} />
       )}
       {editTaskModalOpen && <EditTask />}
 

@@ -14,12 +14,11 @@ const NewTask = () => {
     register,
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
       subtasks: [
-        { title: "", isCompleted: false , id: Math.random() * 1000000},
+        { title: "", isCompleted: false, id: Math.random() * 1000000 },
       ],
     },
   });
@@ -42,7 +41,7 @@ const NewTask = () => {
   };
 
   const onSubmit = (data) => {
-    dispatch(addNewTask(data));
+    dispatch(addNewTask({ ...data, id: Math.random() * 1000000 }));
 
     setNewTaskModalOpen(false);
     toast.success("Task created successfully.", {
@@ -60,9 +59,11 @@ const NewTask = () => {
      items-center fixed inset-0 z-[50]
       bg-black bg-opacity-10 scrollbar-hide"
     >
-      <div className="bg-white dark:bg-gray-dark lg:w-[400px] md:w-[350px] h-fit w-[80%] p-4 rounded-md  bottom-[80px] relative top-2">
+      <div className="bg-white dark:bg-gray-dark lg:w-[400px] md:w-[350px] h-fit p-4 rounded-md  bottom-[80px] relative top-1">
         <div>
-          <h1 className="font-[600] dark:text-white text-[14px]">Add New Task</h1>
+          <h1 className="font-[600] dark:text-white text-[14px]">
+            Add New Task
+          </h1>
           <Image
             src={close}
             alt="close"
@@ -162,7 +163,11 @@ const NewTask = () => {
               } border text-[12px] cursor-pointer dark:bg-transparent dark:text-white rounded-md p-2 outline-none w-full mt-1 focus:border-purple-dark`}
             >
               {selectedBoard.columns.map((column, index) => (
-                <option key={index} value={column.name} className="dark:text-black">
+                <option
+                  key={index}
+                  value={column.name}
+                  className="dark:text-black"
+                >
                   {column.name}
                 </option>
               ))}

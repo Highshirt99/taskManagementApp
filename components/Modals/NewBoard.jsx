@@ -26,6 +26,10 @@ const NewBoard = () => {
           name: "Doing",
           tasks: [],
         },
+        {
+          name: "Done",
+          tasks: [],
+        },
       ],
     },
   });

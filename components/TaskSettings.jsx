@@ -10,10 +10,10 @@ const TaskSettings = ({ showTaskSettings, setShowTaskSettings, task }) => {
   const dispatch = useDispatch();
   const [showConfirmBox, setShowConfirmBox] = useState(false);
 
-  const { setShowTaskDetails, setEditTaskModalOpen } = useContext(KanbanContext);
+  const { setShowTaskDetails, setEditTaskModalOpen, taskId } = useContext(KanbanContext);
 
   const handleDeleteTask = () => {
-    dispatch(deleteTask(task?.id));
+    dispatch(deleteTask(taskId));
     setShowConfirmBox(false);
     setShowTaskSettings(false);
     toast.success("Board deleted successfully.", {
