@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import Sidebar from "@/components/Sidebar ";
 import Template from "@/components/Template ";
 import Header from "@/components/Header ";
@@ -10,7 +10,7 @@ import TopBar from "@/components/TopBar ";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { theme, showTopBar } = useContext(KanbanContext);
+  const { theme } = useContext(KanbanContext);
   const boards = useSelector((state) => state.kanban.boards.boards);
 
   useEffect(() => {
@@ -31,8 +31,8 @@ export default function Home() {
       <Header />
 
       <main className="min-h-screen lg:flex md:flex dark:bg-gray-dark">
-        <TopBar /> 
-         <Sidebar />
+        <TopBar />
+        <Sidebar />
         <Template boards={boards} />
       </main>
     </div>

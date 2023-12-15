@@ -15,6 +15,16 @@ export const kanbanSlice = createSlice({
       state.selectedBoard = state.boards.boards[0];
       // set id's for boards
       state.boards.boards.map((board) => (board.id = Math.random() * 100000));
+
+      // set id's for columns
+      state.boards.boards.forEach((board) => {
+        board.columns.map((column) => {
+          column.id = Math.random() * 10000;
+        });
+      });
+      state.selectedBoard.columns.map((column) => {
+        column.id = Math.random() * 10000;
+      });
       // set id's for tasks
       state.boards.boards.forEach((board) => {
         board.columns.forEach((column) => {
@@ -203,6 +213,50 @@ export const kanbanSlice = createSlice({
           });
         });
     },
+
+    updateTaskStatusDuringDragAndDrop: (state, action) => {
+      state.boards = {
+        boards: state.boards.boards.map((board) => {
+          if (board.id !== state.selectedBoard.id) return board;
+
+          const oldColumnIndex = board.columns.findIndex((column) =>
+            column.tasks.some((task) => task.id === action.payload.task_id)
+          );
+
+          const newColumnIndex = board.columns.findIndex(
+            (column) => column.name === action.payload.newStatus
+          );
+
+          if (oldColumnIndex === -1 || newColumnIndex === -1) return board;
+
+          const updatedColumns = [...board.columns];
+          const oldColumn = updatedColumns[oldColumnIndex];
+          const newColumn = updatedColumns[newColumnIndex];
+
+          const taskIndex = oldColumn.tasks.findIndex(
+            (task) => task.id === action.payload.task_id
+          );
+
+          if (taskIndex === -1) return board;
+
+          // Find and update the task's status
+          const updatedTask = {
+            ...oldColumn.tasks[taskIndex],
+            status: action.payload.newStatus,
+          };
+
+          // Remove the task from the old column and add it to the new column
+          oldColumn.tasks.splice(taskIndex, 1);
+          newColumn.tasks.push(updatedTask);
+
+          return {
+            ...board,
+            columns: updatedColumns,
+          };
+        }),
+      };
+    // console.log(state.boards.boards);
+    },
   },
 });
 
@@ -217,5 +271,6 @@ export const {
   changeStatus,
   deleteTask,
   editTask,
+  updateTaskStatusDuringDragAndDrop
 } = kanbanSlice.actions;
 export default kanbanSlice.reducer;
